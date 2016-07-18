@@ -1,21 +1,33 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.model.application'
 
-android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+model {
+    android {
+        compileSdkVersion = 23
+        buildToolsVersion = "23.0.3"
 
-    defaultConfig {
-        applicationId "com.lxy.path"
-        minSdkVersion 19
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        defaultConfig.with {
+            applicationId  "com.lxy.ndk"
+            minSdkVersion.apiLevel  19
+            targetSdkVersion.apiLevel  23
+            versionCode  1
+            versionName  "1.0"
         }
+
+    }
+
+    android.buildTypes {
+        release {
+            minifyEnabled = true
+            proguardFiles.add(file("proguard-rules.pro"))
+        }
+    }
+    android.ndk {
+        moduleName = "jniLib"
+        ldLibs.addAll(['log'])
+        cppFlags.add("-std=c++11")
+        cppFlags.add("-fexceptions")
+        platformVersion 15
+        stl 'gnustl_shared'
     }
 }
 
